@@ -1,54 +1,81 @@
-import { createReducer, on, } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createReducer, on } from '@ngrx/store';
 import { userAction } from 'app/actions';
-import { IUser } from 'app/models/user.model';
-export interface UserState {
-  users: Array<IUser>,
-  length: number;
-  selectedUser?: IUser;
+import { IUser } from 'app/models';
+
+
+export interface UserState extends EntityState<IUser> {
+  selectedUserId: string | undefined;
+  length: number
 }
 
-export const initialState: UserState = {
-  users: [],
-  length: 0,
-};
+export function selectUserId(a: IUser): string {
+  //In this case this would be optional since primary key is id
+  return a.uuid;
+}
+
+export function sortByName(a: IUser, b: IUser): number {
+  return a.name.localeCompare(b.name);
+}
+
+export const adapter: EntityAdapter<IUser> = createEntityAdapter<IUser>({
+  selectId: selectUserId,
+  sortComparer: sortByName,
+});
+
+export const initialState: UserState = adapter.getInitialState({
+  selectedUserId: undefined,
+  length: 0
+})
 
 export const userReducer = createReducer(
   initialState,
   on(userAction.add, (state, { user, size }) => {
-    let { users, length, selectedUser } = {
-      ...state
-    };
-    users = [...users, user];
-    length = size;
-    return { users, length, selectedUser };
+    return adapter.addMany([user], state)
   }),
-  on(userAction.remove, (state, { userID, size }) => {
-    let { users, length, selectedUser } = {
-      ...state
-    };
-    selectedUser = selectedUser?.uuid === userID ? undefined : selectedUser;
-    users = users.filter((current: IUser) => current.uuid !== userID);
-    length = size;
-    return { users, length, selectedUser };
+  on(userAction.remove, (state, { userID }) => {
+    if ([state.selectedUserId].includes(userID)) {
+      return adapter.removeOne(userID, { ...state, selectedUserId: undefined });
+    }
+    return adapter.removeMany([userID], state)
   }),
 
-  on(userAction.update, (state: UserState, { userID, user }) => {
-    console.log(state);
-    let data = state.users;
-    data = data.map((current: IUser) => current.uuid === userID ? user : current);
-    return { ...state, users: data };
+  on(userAction.update, (state, { user }) => {
+    return adapter.updateOne(user, state)
   }),
 
-  on(userAction.clear, () => {
-    return { users: [], length: 0, selectedUser: undefined };
+  on(userAction.clear, (state) => {
+    return adapter.removeAll({ ...state, selectedUserId: undefined });
   }),
 
-  on(userAction.getUserApi, (state, { users }) => {
-    return { users, length: users.length, selectedUser: undefined };
+  on(userAction.loadUserFromService, (state, { users }) => {
+    return adapter.addMany(users, state);
   }),
 
   on(userAction.selectedUser, (state, { user }) => {
-    let { length, users, selectedUser } = { ...state }
-    return { length, users, selectedUser: user };
+    return { ...state, selectedUserId: user?.uuid }
   })
 );
+
+
+export const getSelectedUserId = (state: UserState) => state.selectedUserId;
+
+// get the selectors
+const {
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal,
+} = adapter.getSelectors();
+
+// select the array of user ids
+export const selectUserIds = selectIds;
+
+// select the dictionary of user entities
+export const selectUserEntities = selectEntities;
+
+// select the array of users
+export const selectAllUsers = selectAll;
+
+// select the total user count
+export const selectUserTotal = selectTotal;

@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { userAction } from './actions';
@@ -16,7 +17,12 @@ import { userSelector } from './selectors';
 export class AppComponent implements OnInit, OnDestroy {
   @Input() title = 'tutoriel ngrx';
   count = 0;
-  users$: Observable<UserState> = this.store.select(userSelector.selectUsers);
+  users$: Observable<IUser[]> = this.store.select(userSelector.selectAllUsers);
+  selectedUser$: Observable<string[] | number[]> = this.store.select(userSelector.selectUserIds);
+  selectTotal$: Observable<number> = this.store.select(userSelector.selectUserTotal);
+  selectIds$: Observable<String[]> = this.store.select(userSelector.selectUserIds) as Observable<String[]>
+  selectedUserId$: Observable<String> = this.store.select(userSelector.selectCurrentUserId) as Observable<String>
+  selectCurrentUser$: Observable<String> = this.store.select(userSelector.selectCurrentUser) as Observable<String>
 
   subscription: Subscription = new Subscription();
   users: Array<IUser> = [];
@@ -24,11 +30,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(userAction.getUserApi())
   }
 
   remove(userID: string): void {
     this.count--;
-    this.store.dispatch(userAction.remove({ userID, size: this.count }));
+    this.store.dispatch(userAction.remove({ userID }));
   }
 
   add(): void {
@@ -48,7 +55,11 @@ export class AppComponent implements OnInit, OnDestroy {
       phone: '699552612',
       surname: 'Kombou yvan'
     };
-    this.store.dispatch(userAction.update({ userID: data.uuid, user: data }));
+    const update: Update<IUser> = {
+      id: data.uuid,
+      changes: data
+    }
+    this.store.dispatch(userAction.update({ user: update }));
   }
 
   clear(): void {
@@ -81,7 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
         surname: 'Cissoko Boris'
       }
     ];
-    this.store.dispatch(userAction.getUserApi({ users: this.users }))
+    // this.store.dispatch(userAction.loadUserFromService({ users: this.users }))
   }
 
   trackByUSer(index: number, item: IUser): string {

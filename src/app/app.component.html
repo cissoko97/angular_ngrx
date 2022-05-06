@@ -10,6 +10,22 @@
     <button (click)="resetSelection()" class="btn btn-sm btn-dark">reset Selection</button>
   </button>
 
+  <hr>
+  <span>
+    Total: {{selectTotal$|async}}
+  </span>
+  <br>
+  <span>
+    Ids: {{selectIds$|async|json}}
+  </span>
+  <br>
+  <span>
+    selectedUserId: {{selectedUserId$|async|json}}
+  </span>
+  <br>
+  <span>
+    selectCurrentUser: {{selectCurrentUser$|async|json}}
+  </span>
 
   <ng-container *ngIf="users$|async as data">
     <table class="table table-striped">
@@ -26,7 +42,7 @@
         <!--  -->
 
 
-        <tr *ngFor="let item of data?.users ;trackBy:trackByUSer">
+        <tr *ngFor="let item of data ;trackBy:trackByUSer">
           <th scope="row">{{item.uuid}}</th>
           <td>{{item.name}}</td>
           <td>{{item.phone}}</td>
@@ -42,11 +58,9 @@
 
       </tbody>
     </table>
-    <span *ngIf="data?.selectedUser">
-      {{data.selectedUser |json}}
-    </span>
   </ng-container>
 </div>
 <div class="container">
+  <hr>
   <router-outlet></router-outlet>
 </div>

@@ -1,1 +1,47 @@
-<p>book works!</p>
+<h3 *ngIf="title$|async as title">
+  {{title|titlecase}}
+</h3>
+<div>
+  <button class="btn btn-sm btn-group">
+    <button (click)="add()" class="btn btn-sm btn-success">add</button>
+    <!-- <button (click)="loadData()" class="btn btn-sm btn-secondary">Load Data</button>-->
+    <button (click)="clear()" class="btn btn-sm btn-danger">clear</button>
+    <button (click)="resetSelection()" class="btn btn-sm btn-dark">reset Selection</button>
+  </button>
+
+  <ng-container *ngIf="data$|async as data">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>{{'title'|titlecase }}</th>
+          <th>{{'description'|titlecase }}</th>
+          <th>{{'totalChapter'|titlecase }}</th>
+          <th>{{'Actions'|titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data?.books ;trackBy:trackBy">
+          <th scope="row">{{item.uuid}}</th>
+          <td>{{item.title}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.totalChapter}}</td>
+          <td>
+            <button class="btn btn-sm btn-group">
+              <button (click)="update(item)" class="btn btn-sm btn-warning">update</button>
+              <button (click)="remove(item.uuid)" class="btn btn-sm btn-info">remove</button>
+              <button (click)="selectItem(item)" class="btn btn-sm btn-primary">select</button>
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <fieldset>
+      <legend>Selected Book</legend>
+      <span *ngIf="data?.selectedBook as b">
+        {{b | json}}
+      </span>
+    </fieldset>
+  </ng-container>
+</div>
