@@ -15,6 +15,7 @@ import { environment } from 'environments/environment';
 import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 const routes: Routes = [
   { path: 'book', loadChildren: () => import('./features/book/book.module').then(m => m.BookModule) }
@@ -24,7 +25,6 @@ const routes: Routes = [
     AppComponent
   ],
   imports: [
-    BrowserModule,
     MatDialogModule,
     HttpClientModule,
     StoreModule.forRoot({ users: userReducer.userReducer }),
@@ -32,7 +32,9 @@ const routes: Routes = [
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
     EffectsModule.forRoot([userEffects.UserEffects]),
     EntityDataModule.forRoot(entityConfig),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    StoreRouterConnectingModule.forRoot(),
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
