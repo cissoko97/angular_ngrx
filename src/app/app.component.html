@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <h1>{{title |uppercase}}</h1>
 </div>
 
@@ -26,6 +26,10 @@
   <span>
     selectCurrentUser: {{selectCurrentUser$|async|json}}
   </span>
+  <br>
+  <span>
+    selectCurrentUsers: {{selectCurrentUsers$|async|json}}
+  </span>
 
   <ng-container *ngIf="users$|async as data">
     <table class="table table-striped">
@@ -39,8 +43,6 @@
         </tr>
       </thead>
       <tbody>
-        <!--  -->
-
 
         <tr *ngFor="let item of data ;trackBy:trackByUSer">
           <th scope="row">{{item.uuid}}</th>
@@ -52,6 +54,7 @@
               <button (click)="update(item)" class="btn btn-sm btn-warning">update</button>
               <button (click)="remove(item.uuid)" class="btn btn-sm btn-info">remove</button>
               <button (click)="selectItem(item)" class="btn btn-sm btn-primary">select</button>
+              <input (click)="selectItem(item)" class="checkbox" type="checkbox" name="selectedUser">
             </button>
           </td>
         </tr>
@@ -59,8 +62,32 @@
       </tbody>
     </table>
   </ng-container>
-</div>
-<div class="container">
-  <hr>
-  <router-outlet></router-outlet>
-</div>
+</div> -->
+<main>
+  <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">{{'Tutorial NgRx' |uppercase}}</a>
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/user']" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:false}">User</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/book']" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:false}">Book</a>
+        </li>
+      </ul>
+
+      <ul class="d-flex navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/authentication']" [routerLinkActive]="['active']">login</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</main>

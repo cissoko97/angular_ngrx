@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import {
   HttpClientModule,
 } from "@angular/common/http";
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { userReducer } from './reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -16,9 +16,21 @@ import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: 'book', loadChildren: () => import('./features/book/book.module').then(m => m.BookModule) }
+  {
+    path: 'authentication',
+    loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+  },
+  {
+    path: 'book', loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
+  },
+  { path: '**', component: NotFoundComponent }
 ];
 @NgModule({
   declarations: [

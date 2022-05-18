@@ -22,7 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
   selectTotal$: Observable<number> = this.store.select(userSelector.selectUserTotal);
   selectIds$: Observable<String[]> = this.store.select(userSelector.selectUserIds) as Observable<String[]>
   selectedUserId$: Observable<String> = this.store.select(userSelector.selectCurrentUserId) as Observable<String>
-  selectCurrentUser$: Observable<String> = this.store.select(userSelector.selectCurrentUser) as Observable<String>
+  selectCurrentUser$: Observable<IUser> = this.store.select(userSelector.selectCurrentUser) as Observable<IUser>
+  selectCurrentUsers$: Observable<IUser[]> = this.store.select(userSelector.selectCurrentUsers) as Observable<IUser[]>
 
   subscription: Subscription = new Subscription();
   users: Array<IUser> = [];

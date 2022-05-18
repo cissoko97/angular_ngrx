@@ -11,16 +11,16 @@ export const reducers: ActionReducerMap<State> = {
   users: fromUser.userReducer,
 };
 
-
-
 export const selectUserIds = createSelector(
   selectUsers,
   fromUser.selectUserIds // shorthand for usersState => fromUser.selectUserIds(usersState)
 );
+
 export const selectUserEntities = createSelector(
   selectUsers,
   fromUser.selectUserEntities
 );
+
 export const selectAllUsers = createSelector(
   selectUsers,
   fromUser.selectAllUsers
@@ -30,9 +30,15 @@ export const selectUserTotal = createSelector(
   selectUsers,
   fromUser.selectUserTotal
 );
+
 export const selectCurrentUserId = createSelector(
   selectUsers,
   fromUser.getSelectedUserId
+);
+
+export const selectCurrentUserIds = createSelector(
+  selectUsers,
+  fromUser.getSelectedUserIds
 );
 
 export const selectCurrentUser = createSelector(
@@ -40,3 +46,9 @@ export const selectCurrentUser = createSelector(
   selectCurrentUserId,
   (userEntities, userId) => userId && userEntities[userId]
 );
+
+export const selectCurrentUsers = createSelector(
+  selectUserEntities,
+  selectCurrentUserIds,
+  (userEntities, userIds) => userIds && userIds.map(userId => userEntities[userId])
+)
