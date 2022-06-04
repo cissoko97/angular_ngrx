@@ -5,8 +5,10 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthenticationLoginEffects, AuthenticationRegisterEffects } from './state';
-
+import { SharedModule } from '../shared/shared.module';
+import { authReducer } from './state';
+import { StoreModule } from '@ngrx/store';
+import { AuthenticationEffects } from './state/authentication.effects';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,10 @@ import { AuthenticationLoginEffects, AuthenticationRegisterEffects } from './sta
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
-    EffectsModule.forFeature([AuthenticationLoginEffects, AuthenticationRegisterEffects])
-  ]
+    SharedModule,
+    StoreModule.forFeature('auth', authReducer),
+    EffectsModule.forFeature([AuthenticationEffects])
+  ],
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {
+}

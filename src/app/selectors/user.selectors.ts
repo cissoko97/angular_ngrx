@@ -52,3 +52,4 @@ export const selectCurrentUsers = createSelector(
   selectCurrentUserIds,
   (userEntities, userIds) => userIds && userIds.map(userId => userEntities[userId])
 )
+

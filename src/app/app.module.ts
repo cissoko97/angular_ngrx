@@ -10,13 +10,14 @@ import { AppComponent } from './app.component';
 import { userReducer } from './reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { userEffects } from './effects';
+import { HydratationEffects, userEffects } from './effects';
 import { environment } from 'environments/environment';
 import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 
 const routes: Routes = [
   {
@@ -42,11 +43,13 @@ const routes: Routes = [
     StoreModule.forRoot({ users: userReducer.userReducer }),
     RouterModule.forRoot(routes),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
-    EffectsModule.forRoot([userEffects.UserEffects]),
+    EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
     BrowserAnimationsModule,
     StoreRouterConnectingModule.forRoot(),
-    RouterModule
+    RouterModule,
+    EffectsModule.forRoot([HydratationEffects]),
+    AuthenticationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

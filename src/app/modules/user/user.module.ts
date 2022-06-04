@@ -7,6 +7,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from 'app/effects/user.effects';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { UserEffects } from 'app/effects/user.effects';
   imports: [
     EffectsModule.forFeature([UserEffects]),
     CommonModule,
-    UserRoutingModule
+    UserRoutingModule,
+    SharedModule
   ]
 })
 export class UserModule { }

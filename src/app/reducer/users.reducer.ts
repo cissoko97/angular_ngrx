@@ -3,25 +3,27 @@ import { createReducer, on } from '@ngrx/store';
 import { userAction } from 'app/actions';
 import { IUser } from 'app/models';
 
-
 export interface UserState extends EntityState<IUser> {
   selectedUserIds: string[] | undefined;
   selectedUserId: string | undefined;
   length: number
 }
 
-export function selectUserId(a: IUser): string {
-  //In this case this would be optional since primary key is id
-  return a.uuid;
-}
 
-export function sortByName(a: IUser, b: IUser): number {
-  return a.name.localeCompare(b.name);
-}
+// export function selectUserId(a: IUser): string {
+//   //In this case this would be optional since primary key is id
+//   return a.uuid;
+// }
+
+// export function sortByName(a: IUser, b: IUser): number {
+//   return a.name.localeCompare(b.name);
+// }
 
 export const adapter: EntityAdapter<IUser> = createEntityAdapter<IUser>({
-  selectId: selectUserId,
-  sortComparer: sortByName,
+  selectId: (a: IUser) => a.uuid,
+  sortComparer: (a: IUser, b: IUser) =>
+    a.name.localeCompare(b.name)
+  ,
 });
 
 export const initialState: UserState = adapter.getInitialState({

@@ -5,14 +5,15 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { userAction } from './actions';
 import { IUser } from './models/user.model';
+import { getIsLoggedIn, getLoggedUser } from './modules/authentication/state/authentication.selectors';
+import { AuthState } from './modules/authentication/state/model';
 import { UserState } from './reducer/users.reducer';
 import { userSelector } from './selectors';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: []
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
   @Input() title = 'tutoriel ngrx';
@@ -25,9 +26,15 @@ export class AppComponent implements OnInit, OnDestroy {
   selectCurrentUser$: Observable<IUser> = this.store.select(userSelector.selectCurrentUser) as Observable<IUser>
   selectCurrentUsers$: Observable<IUser[]> = this.store.select(userSelector.selectCurrentUsers) as Observable<IUser[]>
 
+  selectIsLoggedIn$: Observable<boolean> = this.authStore.select(getIsLoggedIn);
+  selectLoggedUser$: Observable<Partial<IUser>> = this.authStore.select(getLoggedUser) as Observable<Partial<IUser>>;
+
   subscription: Subscription = new Subscription();
   users: Array<IUser> = [];
-  constructor(private store: Store<UserState>, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private store: Store<UserState>,
+    private authStore: Store<AuthState>,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit(): void {

@@ -1,1 +1,9 @@
-<p>login works!</p>
+<main class="container">
+  <p>login works!</p>
+  <div> {{selectIsLoggedIn$ | async}}</div>
+  <div> {{selectLoggedUser$ | async |json}}</div>
+
+</main>
+
+<button (click)="onLogIn()" class="btn btn-success">Login</button>
+<button (click)="onLogOut()" class="btn btn-danger">logOut</button>

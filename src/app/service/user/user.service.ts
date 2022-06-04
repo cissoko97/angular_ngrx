@@ -13,7 +13,10 @@ export class UserService extends EntityCollectionServiceBase<IUser> {
   }
 
   login(params: { login: String, password: string }): Observable<any> {
+    return of(params);
+  }
 
+  register(params: Partial<IUser>): Observable<Partial<IUser>> {
     return of(params);
   }
 }

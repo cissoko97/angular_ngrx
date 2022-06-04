@@ -3,7 +3,7 @@ import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { IBook } from "app/models/book.model";
 import { catchError, EMPTY, Observable, switchMap, tap } from "rxjs";
 
-export interface BookState {
+export type BookState = {
   books: Array<IBook>,
   selectedBook?: IBook,
   isLoading: boolean,
