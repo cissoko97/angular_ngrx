@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { getIsLoggedIn } from 'app/modules/authentication/state/authentication.selectors';
 import { AuthState } from 'app/modules/authentication/state/model';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class NoAuthGuard implements CanActivate {
 
   store = inject(Store) as Store<AuthState>;
   router = inject(Router);
@@ -14,12 +14,11 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-    // this.store.select(selectAuthState).pipe
     return this.store.select(getIsLoggedIn)
       .pipe(
         tap((loggedIn) => {
-          if (!loggedIn) {
-            this.router.navigate(['authentication'])
+          if (loggedIn) {
+            this.router.navigate(['user'])
           }
         })
       );

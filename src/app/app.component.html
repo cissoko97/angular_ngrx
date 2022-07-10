@@ -1,87 +1,24 @@
-<!-- <div class="container">
-  <h1>{{title |uppercase}}</h1>
-</div>
-
-<div class="container">
-  <button class="btn btn-sm btn-group">
-    <button (click)="add()" class="btn btn-sm btn-success">add</button>
-    <button (click)="loadData()" class="btn btn-sm btn-secondary">Load Data</button>
-    <button (click)="clear()" class="btn btn-sm btn-danger">clear</button>
-    <button (click)="resetSelection()" class="btn btn-sm btn-dark">reset Selection</button>
-  </button>
-
-  <hr>
-  <span>
-    Total: {{selectTotal$|async}}
-  </span>
-  <br>
-  <span>
-    Ids: {{selectIds$|async|json}}
-  </span>
-  <br>
-  <span>
-    selectedUserId: {{selectedUserId$|async|json}}
-  </span>
-  <br>
-  <span>
-    selectCurrentUser: {{selectCurrentUser$|async|json}}
-  </span>
-  <br>
-  <span>
-    selectCurrentUsers: {{selectCurrentUsers$|async|json}}
-  </span>
-
-  <ng-container *ngIf="users$|async as data">
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th>#</th>
-          <th>{{'name'|titlecase }}</th>
-          <th>{{'phone'|titlecase }}</th>
-          <th>{{'surname'|titlecase }}</th>
-          <th>{{'Actions'|titlecase }}</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <tr *ngFor="let item of data ;trackBy:trackByUSer">
-          <th scope="row">{{item.uuid}}</th>
-          <td>{{item.name}}</td>
-          <td>{{item.phone}}</td>
-          <td>{{item.surname}}</td>
-          <td>
-            <button class="btn btn-sm btn-group">
-              <button (click)="update(item)" class="btn btn-sm btn-warning">update</button>
-              <button (click)="remove(item.uuid)" class="btn btn-sm btn-info">remove</button>
-              <button (click)="selectItem(item)" class="btn btn-sm btn-primary">select</button>
-              <input (click)="selectItem(item)" class="checkbox" type="checkbox" name="selectedUser">
-            </button>
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-  </ng-container>
-</div> -->
 <main>
   <header class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand">{{'Tutorial NgRx' |uppercase}}</a>
 
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/user']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:false}">User</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/book']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:false}">Book</a>
-        </li>
-      </ul>
+      <ng-container *ngIf="(selectIsLoggedIn$ |async)">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/user']" [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{exact:false}">User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/book']" [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{exact:false}">Book</a>
+          </li>
+        </ul>
+      </ng-container>
 
       <ul class="d-flex navbar-nav">
         <li class="nav-item">
-          <span *ngIf="!(selectIsLoggedIn$ |async);then loggedIn else notLoggedIn"></span>
+          <ng-content *ngIf="!(selectIsLoggedIn$ |async);then loggedIn else notLoggedIn"></ng-content>
           <ng-template #loggedIn>
             <a class="nav-link" [routerLink]="['/authentication']" [routerLinkActive]="['active']">login</a>
           </ng-template>

@@ -1,5 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
-import * as authenticationAction from './authentication.action';
+import { keyWord } from "app/utils/storeKey";
+import { AuthAction } from './authentication.action';
 import { AuthState } from "./model";
 
 
@@ -8,25 +9,25 @@ const authInitialState: AuthState = {
 }
 
 export const authReducer = createReducer(authInitialState,
-  on(authenticationAction.loginSuccess, (state: AuthState, { login, password }) => {
-    localStorage.setItem('loggedIn', JSON.stringify({ login, password }));
+  on(AuthAction.loginSuccess, (state: AuthState, { login, password }) => {
+    localStorage.setItem(keyWord.USERLOGIN, JSON.stringify({ login, password }));
     return { ...state, loggedIn: true, user: { name: login } };
   }),
-  on(authenticationAction.loginFailed, (state: AuthState) => {
+  on(AuthAction.loginFailed, (state: AuthState) => {
     return state;
   }),
-  on(authenticationAction.register, (state: AuthState, { user }) => {
+  on(AuthAction.register, (state: AuthState, { user }) => {
     return state;
   }),
-  on(authenticationAction.registerSuccess, (state: AuthState, { type }) => {
+  on(AuthAction.registerSuccess, (state: AuthState, { type }) => {
     return state;
   }),
-  on(authenticationAction.registerFailed, (state: AuthState, { type }) => {
+  on(AuthAction.registerFailed, (state: AuthState, { type }) => {
     return state;
   }),
-  on(authenticationAction.logOut, (state: AuthState) => {
-    localStorage.removeItem('loggedIn');
+  on(AuthAction.logOut, (state: AuthState) => {
+    localStorage.removeItem(keyWord.USERLOGIN);
     return { ...state, loggedIn: false, user: undefined }
   }));
 
-export * as authenticationAction from './authentication.action';
+export * from './authentication.action';

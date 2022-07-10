@@ -7,10 +7,9 @@ import {
 } from "@angular/common/http";
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
-import { userReducer } from './reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { HydratationEffects, userEffects } from './effects';
+import { HydratationEffects } from './effects';
 import { environment } from 'environments/environment';
 import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
@@ -40,13 +39,14 @@ const routes: Routes = [
   imports: [
     MatDialogModule,
     HttpClientModule,
-    StoreModule.forRoot({ users: userReducer.userReducer }),
+    // StoreModule.forRoot({ users: userReducer.userReducer }),
+    StoreModule.forRoot({}, {}),
     RouterModule.forRoot(routes),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
+    StoreDevtoolsModule.instrument({ maxAge: 30, logOnly: environment.production, autoPause: true }),
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
     BrowserAnimationsModule,
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     RouterModule,
     EffectsModule.forRoot([HydratationEffects]),
     AuthenticationModule

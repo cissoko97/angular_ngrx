@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -7,8 +7,6 @@ import { userAction } from './actions';
 import { IUser } from './models/user.model';
 import { getIsLoggedIn, getLoggedUser } from './modules/authentication/state/authentication.selectors';
 import { AuthState } from './modules/authentication/state/model';
-import { UserState } from './reducer/users.reducer';
-import { userSelector } from './selectors';
 
 @Component({
   selector: 'app-root',
@@ -16,34 +14,28 @@ import { userSelector } from './selectors';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private authStore: Store<AuthState> = inject(Store);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private router: Router = inject(Router);
+
+
   @Input() title = 'tutoriel ngrx';
   count = 0;
-  users$: Observable<IUser[]> = this.store.select(userSelector.selectAllUsers);
-  selectedUser$: Observable<string[] | number[]> = this.store.select(userSelector.selectUserIds);
-  selectTotal$: Observable<number> = this.store.select(userSelector.selectUserTotal);
-  selectIds$: Observable<String[]> = this.store.select(userSelector.selectUserIds) as Observable<String[]>
-  selectedUserId$: Observable<String> = this.store.select(userSelector.selectCurrentUserId) as Observable<String>
-  selectCurrentUser$: Observable<IUser> = this.store.select(userSelector.selectCurrentUser) as Observable<IUser>
-  selectCurrentUsers$: Observable<IUser[]> = this.store.select(userSelector.selectCurrentUsers) as Observable<IUser[]>
+
 
   selectIsLoggedIn$: Observable<boolean> = this.authStore.select(getIsLoggedIn);
   selectLoggedUser$: Observable<Partial<IUser>> = this.authStore.select(getLoggedUser) as Observable<Partial<IUser>>;
 
   subscription: Subscription = new Subscription();
   users: Array<IUser> = [];
-  constructor(private store: Store<UserState>,
-    private authStore: Store<AuthState>,
-    private activatedRoute: ActivatedRoute,
-    private router: Router) {
-  }
 
   ngOnInit(): void {
-    this.store.dispatch(userAction.getUserApi())
+    // this.store.dispatch(userAction.getUserApi())
   }
 
   remove(userID: string): void {
     this.count--;
-    this.store.dispatch(userAction.remove({ userID }));
+    // this.store.dispatch(userAction.remove({ userID }));
   }
 
   add(): void {
@@ -51,9 +43,11 @@ export class AppComponent implements OnInit, OnDestroy {
       uuid: `MAX${++this.count}`,
       name: 'Cissoko',
       phone: '699552612',
-      surname: 'Cissoko Boris'
+      surname: 'Cissoko Boris',
+      experiance: 'Senior',
+      sexe: 'M'
     };
-    this.store.dispatch(userAction.add({ user: data, size: this.count }));
+    // this.store.dispatch(userAction.add({ user: data, size: this.count }));
   }
 
   update(user: IUser): void {
@@ -61,58 +55,33 @@ export class AppComponent implements OnInit, OnDestroy {
       uuid: user.uuid,
       name: 'Cissoko',
       phone: '699552612',
-      surname: 'Kombou yvan'
+      surname: 'Kombou yvan',
+      experiance: 'Senior',
+      sexe: 'M'
     };
     const update: Update<IUser> = {
       id: data.uuid,
       changes: data
     }
-    this.store.dispatch(userAction.update({ user: update }));
+    // this.store.dispatch(userAction.update({ user: update }));
   }
 
   clear(): void {
-    this.store.dispatch(userAction.clear());
+    // this.store.dispatch(userAction.clear());
   }
 
-  loadData(): void {
-    this.count = 0;
-    this.users = [
-      {
-        uuid: `MAX${++this.count}`,
-        name: 'Steve',
-        phone: '699552612',
-        surname: 'Cissoko Boris'
-      },
-      {
-        uuid: `MAX${++this.count}`,
-        name: 'Lyonnel',
-        phone: '699552612',
-        surname: 'Cissoko Boris'
-      }, {
-        uuid: `MAX${++this.count}`,
-        name: 'Jordane',
-        phone: '699552612',
-        surname: 'Cissoko Boris'
-      }, {
-        uuid: `MAX${++this.count}`,
-        name: 'el',
-        phone: '699552612',
-        surname: 'Cissoko Boris'
-      }
-    ];
-    // this.store.dispatch(userAction.loadUserFromService({ users: this.users }))
-  }
+
 
   trackByUSer(index: number, item: IUser): string {
     return item.uuid;
   }
 
   selectItem(item: IUser): void {
-    this.store.dispatch(userAction.selectedUser({ user: item }));
+    // this.store.dispatch(userAction.selectedUser({ user: item }));
   }
 
   resetSelection() {
-    this.store.dispatch(userAction.selectedUser({}))
+    // this.store.dispatch(userAction.selectedUser({}))
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

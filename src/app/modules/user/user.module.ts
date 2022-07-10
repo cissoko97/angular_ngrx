@@ -6,8 +6,10 @@ import { ListUserComponent } from './list-user/list-user.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from 'app/effects/user.effects';
 import { SharedModule } from '../shared/shared.module';
+import { UserEffects } from './state/user.effects';
+import { userReducer } from './state';
+import { keyWord } from 'app/utils/storeKey';
 
 
 @NgModule({
@@ -17,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     EffectsModule.forFeature([UserEffects]),
+    StoreModule.forFeature(keyWord.USERSTORE, userReducer),
     CommonModule,
     UserRoutingModule,
     SharedModule
