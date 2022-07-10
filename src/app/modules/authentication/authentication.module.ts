@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { authReducer } from './state';
 import { StoreModule } from '@ngrx/store';
 import { AuthenticationEffects } from './state/authentication.effects';
+import { keyWord } from 'app/utils/storeKey';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { AuthenticationEffects } from './state/authentication.effects';
     CommonModule,
     AuthenticationRoutingModule,
     SharedModule,
-    StoreModule.forFeature('auth', authReducer),
+    StoreModule.forFeature(keyWord.AUTHSTORE, authReducer),
     EffectsModule.forFeature([AuthenticationEffects])
   ],
 })

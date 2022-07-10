@@ -1,9 +1,54 @@
-<main class="container">
-  <p>login works!</p>
-  <div> {{selectIsLoggedIn$ | async}}</div>
-  <div> {{selectLoggedUser$ | async |json}}</div>
+<h3 class="mt-3">Login</h3>
+<hr>
+<div class="row">
 
-</main>
+  <div class="col-md-6">
+    <form #loginForm="ngForm" autocomplete="off" novalidate (ngSubmit)="submitForm(loginForm.value)">
+      <div class="form-floating mb-3">
+        <input id="login"
+          [ngClass]="{'form-control':true ,'is-invalid':loginForm.controls['login']?.invalid && (loginForm.controls['login']?.touched || mouseOverLogin) }"
+          (ngModel)="login" required name="login" type="text" placeholder="User Name..." />
+        <label class="form-label" for="login">User name</label>
+      </div>
+      <div class="mb-3">
+        <em *ngIf="loginForm.controls['login']?.invalid && (loginForm.controls['login']?.touched || mouseOverLogin)"
+          class="invalid-feedback">
+          Please enter a login.
+        </em>
+      </div>
 
-<button (click)="onLogIn()" class="btn btn-success">Login</button>
-<button (click)="onLogOut()" class="btn btn-danger">logOut</button>
+      <div class="form-floating mb-3">
+        <input id="password"
+          [ngClass]="{'form-control':true ,'is-invalid':loginForm.controls['password']?.invalid && (loginForm.controls['password']?.touched || mouseOverLogin)}"
+          (ngModel)="password" required name="password" type="password" placeholder="Password..." />
+        <label class="form-label" for="password">Password</label>
+        <em
+          *ngIf="loginForm.controls['password']?.invalid && (loginForm.controls['password']?.touched || mouseOverLogin)"
+          class="invalid-feedback">
+          Please enter password.
+        </em>
+      </div>
+
+
+      <div class="footer-btn">
+        <span (mouseenter)="mouseEvent($event , true)">
+          <button type="submit" [disabled]="loginForm.invalid" class="btn btn-success">Login</button>
+        </span>
+        <button type="reset" (click)="cancel()" class="btn btn-danger">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <!-- <pre>{{loginForm.value| json}}</pre> -->
+</div>
+
+
+<!-- <div class="col-md-5">
+  <pre>
+    loginForm.controls.login.valid : {{loginForm.controls['login']?.valid }}
+    loginForm.controls.login.invalid : {{loginForm.controls['login']?.invalid }}
+    loginForm.controls.login.dirty : {{loginForm.controls['login']?.dirty }}
+    loginForm.controls.login.pristine : {{loginForm.controls['login']?.pristine }}
+    loginForm.controls.login.touched : {{loginForm.controls['login']?.touched }}
+    loginForm.controls.login.untouched : {{loginForm.controls['login']?.untouched }}
+  </pre>
+</div> -->

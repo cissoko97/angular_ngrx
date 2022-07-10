@@ -6,6 +6,13 @@
     "tutoriel_ngrx": {
       "projectType": "application",
       "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush"
+        },
+        "@schematics/angular:resolver": {
+          "flat": false
+        },
         "@schematics/angular:application": {
           "strict": true
         }

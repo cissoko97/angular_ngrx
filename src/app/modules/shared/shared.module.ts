@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './auth/auth.guard';
+import { NoAuthGuard } from './no-auth/no-auth.guard';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -10,14 +12,18 @@ import { AuthGuard } from './auth/auth.guard';
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    FormsModule,
+    MatDialogModule,
   ],
   exports: [
     HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
+    FormsModule,
+    MatDialogModule
   ],
-  providers: [AuthGuard]
+  providers: [AuthGuard, NoAuthGuard]
 
 })
 export class SharedModule { }

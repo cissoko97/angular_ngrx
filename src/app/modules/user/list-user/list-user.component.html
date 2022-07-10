@@ -1,1 +1,75 @@
-<p>list-user works!</p>
+<h3 class="mt-3">User List</h3>
+<hr>
+<ng-container *ngIf="selectedUser$|async as data">
+  <pre>{{data | json}}</pre>
+</ng-container>
+
+inProgress
+<ng-container *ngIf="(inProgress$ | async) == true">
+  <pre>{{inProgress$|async}}</pre>
+</ng-container>
+endInProgress
+
+<span *ngIf="selectLength$ | async as length">
+  <pre>{{length}}</pre>
+  <pre>{{count}}</pre>
+</span>
+
+
+<button class="btn btn-sm btn-group">
+  <!--  (click)="loadData()" (click)="clear()" -->
+  <button (click)="addRecord()" class="btn btn-sm btn-success">add</button>
+  <!-- <button class="btn btn-sm btn-secondary">Load Data</button> -->
+  <button (click)="reset()" class="btn btn-sm btn-danger">clear</button>
+  <!-- <button class="btn btn-sm btn-dark">reset Selection</button> -->
+</button>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>#</th>
+      <th>{{'name'|titlecase }}</th>
+      <th>{{'phone'|titlecase }}</th>
+      <th>{{'surname'|titlecase }}</th>
+      <th>{{'Sexe'|titlecase }}</th>
+      <th>{{'Experiance'|titlecase }}</th>
+      <th>{{'Actions'|titlecase }}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <ng-container *ngFor="let item of (users$| async) ;trackBy:trackByUser">
+      <tr>
+        <th scope="row">{{item.uuid}}</th>
+        <td>{{item.name}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.surname}}</td>
+        <td>{{item.sexe}}</td>
+        <td>{{item.experiance}}</td>
+        <td>
+          <button class="btn btn-sm btn-group">
+            <button class="btn btn-sm btn-warning">update</button>
+            <!-- (click)="update(item)" (click)="remove(item.uuid)"
+              <button (click)="selectItem(item)" class="btn btn-sm btn-primary">select</button>
+            -->
+            <button class="btn btn-sm btn-danger">remove</button>
+            <input (click)="selectItem(item)" class="radio" type="radio" name="selectedUser">
+          </button>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
