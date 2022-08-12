@@ -1,11 +1,19 @@
 import { createReducer, on } from "@ngrx/store";
 import { keyWord } from "app/utils/storeKey";
 import { AuthAction } from './authentication.action';
-import { AuthState } from "./model";
+import { IUser } from "app/models";
 
+export interface AuthState {
+  loggedIn: boolean,
+  user?: Partial<IUser>
+}
+
+export interface state {
+  readonly [keyWord.AUTHSTORE]: AuthState
+}
 
 const authInitialState: AuthState = {
-  loggedIn: false
+  loggedIn: false,
 }
 
 export const authReducer = createReducer(authInitialState,

@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import {
   HttpClientModule,
 } from "@angular/common/http";
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -40,7 +40,13 @@ const routes: Routes = [
     MatDialogModule,
     HttpClientModule,
     // StoreModule.forRoot({ users: userReducer.userReducer }),
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({}, {
+      runtimeChecks: {
+        strictActionImmutability: true,
+        strictActionSerializability: true,
+        strictActionTypeUniqueness: true
+      }
+    }),
     RouterModule.forRoot(routes),
     StoreDevtoolsModule.instrument({ maxAge: 30, logOnly: environment.production, autoPause: true }),
     EffectsModule.forRoot([]),
@@ -51,7 +57,12 @@ const routes: Routes = [
     EffectsModule.forRoot([HydratationEffects]),
     AuthenticationModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { hasBackdrop: true, disableClose: true }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

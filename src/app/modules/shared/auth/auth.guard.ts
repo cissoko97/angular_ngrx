@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { AuthState } from 'app/modules/authentication/state';
 import { getIsLoggedIn } from 'app/modules/authentication/state/authentication.selectors';
-import { AuthState } from 'app/modules/authentication/state/model';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()

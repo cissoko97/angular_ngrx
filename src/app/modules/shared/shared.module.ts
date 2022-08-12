@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './auth/auth.guard';
 import { NoAuthGuard } from './no-auth/no-auth.guard';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -12,13 +13,16 @@ import { NoAuthGuard } from './no-auth/no-auth.guard';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
   ],
   exports: [
     HttpClientModule,
     FormsModule,
-    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
+    FormsModule,
+    MatDialogModule
   ],
   providers: [AuthGuard, NoAuthGuard]
 

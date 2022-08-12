@@ -1,6 +1,6 @@
 export enum keyWord {
   USERLOGIN = 'USER_LOGIN',
-  BOOKSTORE = 'bookStore',
-  USERSTORE = 'userStore',
-  AUTHSTORE = 'authStore'
+  BOOKSTORE = 'BOOKS',
+  USERSTORE = 'USERS',
+  AUTHSTORE = 'AUTH'
 }

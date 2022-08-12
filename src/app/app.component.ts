@@ -5,9 +5,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { userAction } from './actions';
 import { IUser } from './models/user.model';
+import { AuthState } from './modules/authentication/state';
 import { getIsLoggedIn, getLoggedUser } from './modules/authentication/state/authentication.selectors';
-import { AuthState } from './modules/authentication/state/model';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -4,10 +4,18 @@
   <pre>{{data | json}}</pre>
 </ng-container>
 
-<!--<span>inProgress</span>
-<ng-container *ngIf="inProgress$|async as inProgress">
-  <pre>{{inProgress}}</pre>
-</ng-container> -->
+inProgress
+<ng-container *ngIf="(inProgress$ | async) == true">
+  <pre>{{inProgress$|async}}</pre>
+</ng-container>
+endInProgress
+
+<span *ngIf="selectLength$ | async as length">
+  <pre>{{length}}</pre>
+  <pre>{{count}}</pre>
+</span>
+
+
 <button class="btn btn-sm btn-group">
   <!--  (click)="loadData()" (click)="clear()" -->
   <button (click)="addRecord()" class="btn btn-sm btn-success">add</button>
@@ -27,7 +35,9 @@
       <th>{{'Actions'|titlecase }}</th>
     </tr>
   </thead>
+
   <tbody>
+
     <ng-container *ngFor="let item of (users$| async) ;trackBy:trackByUser">
       <tr>
         <th scope="row">{{item.uuid}}</th>

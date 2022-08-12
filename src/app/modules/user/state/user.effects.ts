@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { IUser } from "app/models";
 import { EMPTY, catchError, map, mergeMap, of } from "rxjs";
-import { userAction } from ".";
+import { userActions } from ".";
 
 @Injectable()
 export class UserEffects {
@@ -11,10 +11,10 @@ export class UserEffects {
   // userService = inject(UserService);
 
   loadUserSucces$ = createEffect(() => this.actions$.pipe(
-    ofType(userAction.loadUser),
+    ofType(userActions.loadUser),
     mergeMap(() => of(users)
       .pipe(
-        map(users => userAction.loadUserSuccess({ users })),
+        map(users => userActions.loadUserSuccess({ users })),
         catchError(() => EMPTY)
       ))
   ));

@@ -1,12 +1,11 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-// import { userAction } from 'app/actions';
 import { IUser } from 'app/models';
-import { userAction } from '.';
+import { userActions } from '.';
 
 
 export interface UserState extends EntityState<IUser> {
-  inProggress: boolean
+  inProggress: boolean;
   selectedUserId: string | undefined;
   length: number
 }
@@ -34,51 +33,33 @@ export const initialState: UserState = adapter.getInitialState({
 export const userReducer = createReducer(
   initialState,
 
-  on(userAction.loadUser, (state) => {
+  on(userActions.loadUser, (state) => {
     return { ...state, inProggress: true }
   }),
-  on(userAction.loadUserSuccess, (state, { users }) => {
-    return adapter.addMany(users, { ...state });
+  on(userActions.loadUserSuccess, (state, { users }) => {
+    return adapter.addMany(users, { ...state, inProggress: false });
   }),
 
-  on(userAction.loadUserFailed, (state) => {
+  on(userActions.loadUserFailed, (state) => {
     return { ...state }
   }),
 
-  on(userAction.resetUserList, (state) => {
+  on(userActions.resetUserList, (state) => {
     return adapter.removeAll(state);
   }),
 
-  on(userAction.addUser, (state, { user }) => {
+  on(userActions.addUser, (state, { user }) => {
     return adapter.addMany([user], state);
   })
 
-  // on(userAction.remove, (state, { userID }) => {
-  //   if ([state.selectedUserId].includes(userID)) {
-  //     return adapter.removeOne(userID, { ...state, selectedUserId: undefined });
-  //   }
-  //   return adapter.removeMany([userID], state)
-  // }),
-
-  // on(userAction.update, (state, { user }) => {
-  //   return adapter.updateOne(user, state)
-  // }),
-
-  // on(userAction.clear, (state) => {
-  //   return adapter.removeAll({ ...state, selectedUserId: undefined, selectedUserIds: undefined });
-  // }),
-
-
-  // on(userAction.selectedUser, (state, { user }) => {
-  //   // const currentSelectedUserIds = [...(state.selectedUserIds as string[]), user?.uuid] as string[];
-  //   return { ...state, selectedUserId: user?.uuid }
-  // })
 );
 
-
 export const getSelectedUserId = (state: UserState) => state.selectedUserId;
+
 export const getInProggress = (state: UserState) => state.inProggress;
 
+
+export const getLength = (state: UserState) => state.length;
 // export const getSelectedUserIds = (state: UserState) => state.selectedUserIds;
 
 // get the selectors

@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IUser } from 'app/models';
 import { Observable } from 'rxjs';
+import { AuthState } from '../state';
 import { AuthAction } from '../state/authentication.action';
 import { getIsLoggedIn, getLoggedUser } from '../state/authentication.selectors';
-import { AuthState } from '../state/model';
 
 @Component({
   selector: 'app-login',

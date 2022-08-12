@@ -1,11 +1,11 @@
 import { Dictionary } from "@ngrx/entity";
-import { ActionReducerMap, createFeatureSelector, createSelector, props } from "@ngrx/store";
+import { ActionReducerMap, createFeatureSelector, createSelector } from "@ngrx/store";
 import { IUser } from "app/models";
 import { keyWord } from "app/utils/storeKey";
-import { getInProggress } from ".";
-import { userReducer, UserState, getSelectedUserId, selectAll, selectIds, selectEntities, selectTotal } from "./users.reducer";
+import { getInProggress, getLength } from ".";
+import { userReducer, UserState, getSelectedUserId, selectAll, selectEntities, selectTotal } from "./users.reducer";
 
-export const selectUsers = createFeatureSelector<UserState>(keyWord.USERSTORE);
+export const selectUserStore = createFeatureSelector<UserState>(keyWord.USERSTORE);
 
 export interface State {
   users: UserState;
@@ -16,22 +16,22 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 export const selectUserEntities = createSelector(
-  selectUsers,
+  selectUserStore,
   selectEntities
 );
 
 export const selectAllUsers = createSelector(
-  selectUsers,
+  selectUserStore,
   selectAll
 );
 
 export const selectUserTotal = createSelector(
-  selectUsers,
+  selectUserStore,
   selectTotal
 );
 
 export const selectCurrentUserId = createSelector(
-  selectUsers,
+  selectUserStore,
   getSelectedUserId
 );
 
@@ -42,7 +42,7 @@ export const selectCurrentUser = createSelector(
 );
 
 export const selectInProggress = createSelector(
-  selectUsers,
+  selectUserStore,
   getInProggress
 )
 
