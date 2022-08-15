@@ -10,6 +10,7 @@ import { authReducer } from './state';
 import { StoreModule } from '@ngrx/store';
 import { AuthenticationEffects } from './state/authentication.effects';
 import { keyWord } from 'app/utils/storeKey';
+import { UserModule } from '../user/user.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { keyWord } from 'app/utils/storeKey';
     LoginComponent
   ],
   imports: [
+    UserModule,
     CommonModule,
     AuthenticationRoutingModule,
     SharedModule,

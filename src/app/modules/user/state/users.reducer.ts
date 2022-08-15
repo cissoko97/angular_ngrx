@@ -1,8 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createReducer, on } from '@ngrx/store';
+import { Action, ActionReducer, createReducer, MetaReducer, on } from '@ngrx/store';
 import { IUser } from 'app/models';
+import { keyWord } from 'app/utils/storeKey';
+import { environment } from 'environments/environment';
 import { userActions } from '.';
 
+export interface State {
+  readonly [keyWord.USERSTORE]: UserState
+}
 
 export interface UserState extends EntityState<IUser> {
   inProggress: boolean;
@@ -54,18 +59,22 @@ export const userReducer = createReducer(
 
 );
 
-export const getSelectedUserId = (state: UserState) => state.selectedUserId;
-
-export const getInProggress = (state: UserState) => state.inProggress;
 
 
-export const getLength = (state: UserState) => state.length;
-// export const getSelectedUserIds = (state: UserState) => state.selectedUserIds;
+export function logger(reducer: ActionReducer<UserState>): ActionReducer<UserState> {
+  return function (state, action): UserState {
+    console.log('state', state);
+    console.log('action', action);
 
-// get the selectors
-export const {
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectTotal
-} = adapter.getSelectors();
+    return reducer(state, action);
+  };
+}
+
+/**
+ * By default, @ngrx/store uses combineReducers with the reducer map to compose
+ * the root meta-reducer. To add more meta-reducers, provide an array of meta-reducers
+ * that will be composed to form the root meta-reducer.
+ */
+export const metaReducers: MetaReducer<UserState>[] = !environment.production
+  ? [logger]
+  : [];

@@ -2,17 +2,43 @@ import { Dictionary } from "@ngrx/entity";
 import { ActionReducerMap, createFeatureSelector, createSelector } from "@ngrx/store";
 import { IUser } from "app/models";
 import { keyWord } from "app/utils/storeKey";
-import { getInProggress, getLength } from ".";
-import { userReducer, UserState, getSelectedUserId, selectAll, selectEntities, selectTotal } from "./users.reducer";
+import { UserState, adapter, userReducer } from "./users.reducer";
 
+/**
+ *
+*/
 export const selectUserStore = createFeatureSelector<UserState>(keyWord.USERSTORE);
 
-export interface State {
-  users: UserState;
+/**
+ *
+*/
+export const getSelectedUserId = (state: UserState) => state.selectedUserId;
+
+/**
+ *
+*/
+export const getInProggress = (state: UserState) => state.inProggress;
+
+/**
+ *
+*/
+export const getLength = (state: UserState) => state.length;
+
+// get the selectors from adapter
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal
+} = adapter.getSelectors();
+
+
+interface State {
+  readonly [keyWord.USERSTORE]: UserState;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  users: userReducer,
+  [keyWord.USERSTORE]: userReducer,
 };
 
 export const selectUserEntities = createSelector(

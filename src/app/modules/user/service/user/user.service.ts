@@ -3,13 +3,11 @@ import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } f
 import { IUser } from 'app/models';
 import { Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService extends EntityCollectionServiceBase<IUser> {
 
   constructor(serviceElementFactory: EntityCollectionServiceElementsFactory) {
-    super('User', serviceElementFactory)
+    super('user', serviceElementFactory)
   }
 
   login(params: { login: String, password: string }): Observable<any> {

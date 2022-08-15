@@ -18,7 +18,7 @@ export class NoAuthGuard implements CanActivate {
       .pipe(
         tap((loggedIn) => {
           if (loggedIn) {
-            this.router.navigate(['user'])
+            this.router.navigate(['/user/list'])
           }
         })
       );

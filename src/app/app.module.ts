@@ -17,18 +17,28 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { AuthGuard } from './modules/shared/auth/auth.guard';
+import { NoAuthGuard } from './modules/shared/no-auth/no-auth.guard';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'user',
+    pathMatch: 'full'
+  },
   {
     path: 'authentication',
     loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'user',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
   },
   {
-    path: 'book', loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
+    path: 'book',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
   },
   { path: '**', component: NotFoundComponent }
 ];

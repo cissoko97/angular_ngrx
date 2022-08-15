@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { userAction } from './actions';
 import { IUser } from './models/user.model';
 import { AuthState } from './modules/authentication/state';
+import { AuthAction } from './modules/authentication/state/authentication.action';
 import { getIsLoggedIn, getLoggedUser } from './modules/authentication/state/authentication.selectors';
 @Component({
   selector: 'app-root',
@@ -85,4 +86,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  onLogOut(): void {
+    this.authStore.dispatch(AuthAction.logOut());
+  }
+
 }

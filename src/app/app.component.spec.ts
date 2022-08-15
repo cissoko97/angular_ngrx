@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
-import { UserState } from './reducer/users.reducer';
+import { UserState } from './modules/user/state';
 
 
 class StoreMock {

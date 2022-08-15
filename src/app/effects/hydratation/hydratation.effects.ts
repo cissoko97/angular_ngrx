@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { userAction } from 'app/actions';
-import { AuthAction } from 'app/modules/authentication/state';
+import { AuthAction } from 'app/modules/authentication/state/authentication.action';
 import { UserState } from 'app/modules/user/state/users.reducer';
 import { keyWord } from 'app/utils/storeKey';
 import { map } from 'rxjs';

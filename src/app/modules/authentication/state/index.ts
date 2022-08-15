@@ -38,4 +38,3 @@ export const authReducer = createReducer(authInitialState,
     return { ...state, loggedIn: false, user: undefined }
   }));
 
-export * from './authentication.action';
