@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 export class UserService extends EntityCollectionServiceBase<IUser> {
 
   constructor(serviceElementFactory: EntityCollectionServiceElementsFactory) {
-    super('User', serviceElementFactory)
+    super('user', serviceElementFactory)
   }
 
   login(params: { login: String, password: string }): Observable<any> {
