@@ -4,3 +4,12 @@ export enum keyWord {
   USERSTORE = 'USERS',
   AUTHSTORE = 'AUTH'
 }
+
+
+export interface AuthRequest {
+  username: string,
+  password: string,
+  withRefreshToken: boolean,
+  grantType: 'password' | 'refreshToken',
+  refreshToken?: string,
+}

@@ -5,6 +5,8 @@ import { IUser } from 'app/models/user.model';
 import { BehaviorSubject, Observable, tap, noop, of, from } from 'rxjs';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { userActions, UserState, selectAllUsers, selectInProggress, selectUserById, selectCurrentUser, selectUserTotal } from '../state';
+import { AuthState } from 'app/modules/authentication/state';
+import { getAccesToken , getRefreshToken } from 'app/modules/authentication/state/authentication.selectors';
 
 @Component({
   selector: '[app-list-user]',
@@ -14,6 +16,10 @@ import { userActions, UserState, selectAllUsers, selectInProggress, selectUserBy
 })
 export class ListUserComponent implements OnInit {
 
+  authStore = inject(Store) as Store<AuthState>;
+
+  selectAccesToken$: Observable<string> = this.authStore.select(getAccesToken)  as Observable<string>;
+  selectRefreshToken$: Observable<string> = this.authStore.select(getRefreshToken) as Observable<string>;
   store = inject(Store) as Store<UserState>;
   dialog = inject(MatDialog);
   cdr = inject(ChangeDetectorRef);
@@ -26,7 +32,7 @@ export class ListUserComponent implements OnInit {
   errorMessages$: Observable<string> = of('Bonjour le monde de la programmation');
 
   ngOnInit(): void {
-    this.store.dispatch(userActions.loadUser())
+    this.store.dispatch(userActions.loadUser());
     this.toget.pipe(
       tap((data) => this.selectedUser$ = this.store.pipe(select(selectUserById({ uuid: `MAX${data}` }))) as Observable<IUser>)
     ).subscribe(noop);

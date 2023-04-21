@@ -3,21 +3,23 @@ import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { UserService } from "app/service/user/user.service";
 import { catchError, exhaustMap, lastValueFrom, map, of, tap } from "rxjs";
-import {AuthAction} from './authentication.action';
+import { AuthAction } from './authentication.action';
+import { AuthenticationService } from "app/service/authentication/authentication.service";
 
 @Injectable()
 export class AuthenticationEffects {
 
   private actions$ = inject(Actions);
   private userService = inject(UserService);
+  private authenticationService = inject(AuthenticationService);
   private router = inject(Router);
 
   userLogin$ = createEffect(() => this.actions$.pipe(
     ofType(AuthAction.login),
-    exhaustMap(action => this.userService
-      .login({ login: action.login, password: action.password })
+    exhaustMap(action => this.authenticationService
+      .login(action)
       .pipe(
-        map(data => AuthAction.loginSuccess({ login: action.login, password: action.password })),
+        map(data => AuthAction.loginSuccess({ accessToken: data.accessToken, refreshToken: data.refreshToken })),
         catchError(error => of(AuthAction.loginFailed()))
       )
     )
@@ -28,7 +30,7 @@ export class AuthenticationEffects {
     exhaustMap(action => this.userService
       .login({ login: action.user.name, password: action.user.surname })
       .pipe(
-        map(data => AuthAction.loginSuccess({ login: '', password: '' })),
+        map(data => AuthAction.loginSuccess({ accessToken: '', refreshToken: '' })),
         catchError(error => of(AuthAction.loginFailed()))
       )
     )

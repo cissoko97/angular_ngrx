@@ -20,7 +20,7 @@
         <li class="nav-item">
           <ng-content *ngIf="!(selectIsLoggedIn$ |async);then loggedIn else notLoggedIn"></ng-content>
           <ng-template #loggedIn>
-            <a class="nav-link" [routerLink]="['/authentication']" [routerLinkActive]="['active']">login</a>
+            <a class="nav-link" [routerLink]="['/auth']" [routerLinkActive]="['active']">login</a>
           </ng-template>
           <ng-template #notLoggedIn>
             <a class="nav-link">log Out</a>

@@ -20,7 +20,7 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
 
 const routes: Routes = [
   {
-    path: 'authentication',
+    path: 'auth',
     loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
@@ -28,10 +28,13 @@ const routes: Routes = [
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
   },
   {
-    path: 'book', loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
+    path: 'book',
+    loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
   },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];
+
 @NgModule({
   declarations: [
     AppComponent
@@ -47,15 +50,14 @@ const routes: Routes = [
         strictActionTypeUniqueness: true
       }
     }),
-    RouterModule.forRoot(routes),
     StoreDevtoolsModule.instrument({ maxAge: 30, logOnly: environment.production, autoPause: true }),
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
     BrowserAnimationsModule,
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
-    RouterModule,
     EffectsModule.forRoot([HydratationEffects]),
-    AuthenticationModule
+    // AuthenticationModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [
     {
