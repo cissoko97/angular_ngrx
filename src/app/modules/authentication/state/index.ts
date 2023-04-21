@@ -6,6 +6,8 @@ import { IUser } from "app/models";
 export interface AuthState {
   loggedIn: boolean,
   user?: Partial<IUser>
+  accessToken?: string,
+  refreshToken?: string
 }
 
 export interface state {
@@ -17,9 +19,10 @@ const authInitialState: AuthState = {
 }
 
 export const authReducer = createReducer(authInitialState,
-  on(AuthAction.loginSuccess, (state: AuthState, { login, password }) => {
-    localStorage.setItem(keyWord.USERLOGIN, JSON.stringify({ login, password }));
-    return { ...state, loggedIn: true, user: { name: login } };
+  on(AuthAction.loginSuccess, (state: AuthState, { accessToken, refreshToken }) => {
+    localStorage.setItem(keyWord.USERLOGIN, JSON.stringify({ accessToken, refreshToken }));
+
+    return { ...state, loggedIn: true, accessToken: accessToken, refreshToken: refreshToken };
   }),
   on(AuthAction.loginFailed, (state: AuthState) => {
     return state;

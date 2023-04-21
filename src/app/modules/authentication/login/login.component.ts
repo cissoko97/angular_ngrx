@@ -7,7 +7,8 @@ import { IUser } from 'app/models';
 import { Observable } from 'rxjs';
 import { AuthState } from '../state';
 import { AuthAction } from '../state/authentication.action';
-import { getIsLoggedIn, getLoggedUser } from '../state/authentication.selectors';
+import { getAccesToken, getIsLoggedIn, getLoggedUser, getRefreshToken } from '../state/authentication.selectors';
+import { AuthRequest } from 'app/utils/storeKey';
 
 @Component({
   selector: 'app-login',
@@ -29,9 +30,8 @@ export class LoginComponent implements OnInit {
   selectIsLoggedIn$: Observable<boolean> = this.authStore.select(getIsLoggedIn);
   selectLoggedUser$: Observable<Partial<IUser>> = this.authStore.select(getLoggedUser) as Observable<Partial<IUser>>;
 
-  onLogIn(): void {
-    // const formValue = this.loginForm.value;
-  }
+  selectAccesToken$: Observable<string> = this.authStore.select(getAccesToken)  as Observable<string>;
+  selectRefreshToken$: Observable<string> = this.authStore.select(getRefreshToken) as Observable<string>;
 
   onLogOut(): void {
     this.authStore.dispatch(AuthAction.logOut())
@@ -44,7 +44,16 @@ export class LoginComponent implements OnInit {
 
   submitForm(formValue: any): void {
     const form: NgForm = new NgForm([], []);
-    this.authStore.dispatch(AuthAction.login({ ...formValue }))
+
+    console.log(formValue);
+    const payload: AuthRequest = {
+      username: "boris",
+      password: "password",
+      withRefreshToken: false,
+      grantType: 'password',
+    }
+
+    this.authStore.dispatch(AuthAction.login(payload));
   }
 
   cancel(): void {
