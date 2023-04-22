@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import {
-  HttpClientModule,
-} from "@angular/common/http";
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -12,7 +9,6 @@ import { HydratationEffects } from './core/redux/effects';
 import { environment } from 'environments/environment';
 import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 
@@ -39,8 +35,6 @@ const routes: Routes = [
     NotFoundComponent
   ],
   imports: [
-    MatDialogModule,
-    HttpClientModule,
     // StoreModule.forRoot({ users: userReducer.userReducer }),
     StoreModule.forRoot({}, {
       runtimeChecks: {
@@ -52,7 +46,6 @@ const routes: Routes = [
     StoreDevtoolsModule.instrument({ maxAge: 30, logOnly: environment.production, autoPause: true }),
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
-    BrowserAnimationsModule,
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     EffectsModule.forRoot([HydratationEffects]),
     // AuthenticationModule,
