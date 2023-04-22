@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { AuthRequest } from 'app/core/utils/storeKey';
+import { AuthRequest } from 'app/core/models';
 import { environment } from 'environments/environment';
 import { Observable, of } from 'rxjs';
 

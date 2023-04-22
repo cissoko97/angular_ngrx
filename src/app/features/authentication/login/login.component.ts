@@ -3,12 +3,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { NgForm, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { IUser } from 'app/core/models';
+import { AuthRequest, IUser } from 'app/core/models';
 import { Observable } from 'rxjs';
 import { AuthState } from '../redux';
 import { AuthAction } from '../redux/authentication.action';
 import { getAccesToken, getIsLoggedIn, getLoggedUser, getRefreshToken } from '../redux/authentication.selectors';
-import { AuthRequest } from 'app/core/utils/storeKey';
 
 @Component({
   selector: 'app-login',

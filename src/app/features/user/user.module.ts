@@ -18,9 +18,9 @@ import { keyWord } from 'app/core/utils/storeKey';
     AddUserComponent
   ],
   imports: [
+    CommonModule,
     EffectsModule.forFeature([UserEffects]),
     StoreModule.forFeature(keyWord.USERSTORE, userReducer),
-    CommonModule,
     UserRoutingModule,
     SharedModule
   ]
