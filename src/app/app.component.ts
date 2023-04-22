@@ -3,10 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { userAction } from './actions';
-import { IUser } from './models/user.model';
-import { AuthState } from './modules/authentication/state';
-import { getIsLoggedIn, getLoggedUser } from './modules/authentication/state/authentication.selectors';
+import { IUser } from './core/models/user.model';
+import { AuthState } from './features/authentication/redux';
+import { getIsLoggedIn, getLoggedUser } from './features/authentication/redux/authentication.selectors';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

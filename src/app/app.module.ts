@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -9,27 +8,26 @@ import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/d
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { HydratationEffects } from './effects';
+import { HydratationEffects } from './core/redux/effects';
 import { environment } from 'environments/environment';
 import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { NotFoundComponent } from './core/components/not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)
+    loadChildren: () => import('./features/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'user',
-    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+    loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)
   },
   {
     path: 'book',
-    loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
+    loadChildren: () => import('./features/book/book.module').then(m => m.BookModule)
   },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
@@ -37,7 +35,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotFoundComponent
   ],
   imports: [
     MatDialogModule,
