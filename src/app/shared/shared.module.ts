@@ -6,26 +6,20 @@ import { AuthGuard } from './guard/auth/auth.guard';
 import { NoAuthGuard } from './guard/no-auth/no-auth.guard';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     MatDialogModule,
-    BrowserAnimationsModule
-
   ],
   exports: [
-    HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
     FormsModule,
     MatDialogModule,
-    BrowserAnimationsModule,
-
   ],
   providers: [AuthGuard, NoAuthGuard]
 

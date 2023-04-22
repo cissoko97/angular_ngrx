@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { AuthRequest } from 'app/core/models';
 import { IUser } from 'app/core/models/user.model';
-import { AuthRequest } from 'app/core/utils/storeKey';
 
 export const AuthAction = createActionGroup({
   source: 'AUTHENTICATION',

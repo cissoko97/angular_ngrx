@@ -11,6 +11,11 @@ import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from './shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {
@@ -35,6 +40,7 @@ const routes: Routes = [
     NotFoundComponent
   ],
   imports: [
+    CommonModule,
     // StoreModule.forRoot({ users: userReducer.userReducer }),
     StoreModule.forRoot({}, {
       runtimeChecks: {
@@ -49,7 +55,11 @@ const routes: Routes = [
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     EffectsModule.forRoot([HydratationEffects]),
     // AuthenticationModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    SharedModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    HttpClientModule,
   ],
   providers: [
     {
