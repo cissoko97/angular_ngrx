@@ -1,10 +1,9 @@
 import { DebugElement } from '@angular/core';
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Store, StoreModule } from '@ngrx/store';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
-import { UserState } from './reducer/users.reducer';
+import { UserState } from './features/user/redux';
 
 
 class StoreMock {
