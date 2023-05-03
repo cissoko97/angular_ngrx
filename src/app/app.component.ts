@@ -6,12 +6,15 @@ import { Observable, Subscription } from 'rxjs';
 import { IUser } from './core/models/user.model';
 import { AuthState } from './features/authentication/redux';
 import { getIsLoggedIn, getLoggedUser } from './features/authentication/redux/authentication.selectors';
+import { ERole } from './core/enum';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  public eRole = ERole;
   private authStore: Store<AuthState> = inject(Store);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);

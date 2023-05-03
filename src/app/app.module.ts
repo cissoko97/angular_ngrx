@@ -16,6 +16,9 @@ import { SharedModule } from './shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthGuard } from './shared/guard/auth/auth.guard';
+import { AuthenticationModule } from './features/authentication/authentication.module';
+
 
 const routes: Routes = [
   {
@@ -24,7 +27,8 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)
+    loadChildren: () => import('./features/user/user.module').then(m => m.UserModule),
+    canActivate: [AuthGuard], data: { roles: ['MODERATOR', 'ADMIN'] }
   },
   {
     path: 'book',
@@ -49,12 +53,12 @@ const routes: Routes = [
         strictActionTypeUniqueness: true
       }
     }),
+    AuthenticationModule,
     StoreDevtoolsModule.instrument({ maxAge: 30, logOnly: environment.production, autoPause: true }),
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     EffectsModule.forRoot([HydratationEffects]),
-    // AuthenticationModule,
     RouterModule.forRoot(routes),
     SharedModule,
     BrowserAnimationsModule,
