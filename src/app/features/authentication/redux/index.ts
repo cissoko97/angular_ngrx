@@ -20,9 +20,6 @@ const authInitialState: AuthState = {
 
 export const authReducer = createReducer(authInitialState,
   on(AuthAction.loginSuccess, (state: AuthState, { accessToken, refreshToken }) => {
-    console.log('accessToken', accessToken);
-    console.log('refreshToken', refreshToken);
-
     return { ...state, loggedIn: true, accessToken: accessToken, refreshToken: refreshToken };
   }),
   on(AuthAction.loginFailed, (state: AuthState) => {
@@ -38,6 +35,8 @@ export const authReducer = createReducer(authInitialState,
     return state;
   }),
   on(AuthAction.logOut, (state: AuthState) => {
+   //TODO Implement redux  with logOut.
+
     localStorage.removeItem(keyWord.USERLOGIN);
     return { ...state, loggedIn: false, user: undefined }
   }));
