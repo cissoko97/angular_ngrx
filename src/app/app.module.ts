@@ -17,7 +17,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './shared/guard/auth/auth.guard';
-import { authReducer } from './features/authentication/redux';
 import { AuthenticationModule } from './features/authentication/authentication.module';
 
 
@@ -47,7 +46,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     // StoreModule.forRoot({ users: userReducer.userReducer }),
-    StoreModule.forRoot(authReducer, {
+    StoreModule.forRoot({}, {
       runtimeChecks: {
         strictActionImmutability: true,
         strictActionSerializability: true,
@@ -60,7 +59,6 @@ const routes: Routes = [
     EntityDataModule.forRoot(entityConfig),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     EffectsModule.forRoot([HydratationEffects]),
-    // AuthenticationModule,
     RouterModule.forRoot(routes),
     SharedModule,
     BrowserAnimationsModule,
