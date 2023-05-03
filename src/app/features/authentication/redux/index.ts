@@ -20,7 +20,8 @@ const authInitialState: AuthState = {
 
 export const authReducer = createReducer(authInitialState,
   on(AuthAction.loginSuccess, (state: AuthState, { accessToken, refreshToken }) => {
-    localStorage.setItem(keyWord.USERLOGIN, JSON.stringify({ accessToken, refreshToken }));
+    console.log('accessToken', accessToken);
+    console.log('refreshToken', refreshToken);
 
     return { ...state, loggedIn: true, accessToken: accessToken, refreshToken: refreshToken };
   }),

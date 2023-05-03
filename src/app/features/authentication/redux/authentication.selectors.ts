@@ -19,7 +19,7 @@ export const getLoggedUser = createSelector(
  */
 export const getAccesToken = createSelector(
   selectAuthState,
-  (authState: AuthState) => authState?.accessToken
+  (authState: AuthState) => authState?.accessToken as string
 )
 
 /**
