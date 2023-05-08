@@ -4,7 +4,7 @@ import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { IUser } from './core/models/user.model';
-import { AuthState } from './features/authentication/redux';
+import { AuthAction, AuthState } from './features/authentication/redux';
 import { getIsLoggedIn, getLoggedUser } from './features/authentication/redux/authentication.selectors';
 import { ERole } from './core/enum';
 @Component({
@@ -86,5 +86,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  logout(){
+    this.authStore.dispatch(AuthAction.logOut())
+
   }
 }

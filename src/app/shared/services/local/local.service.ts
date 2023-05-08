@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
-import  *  as CryptoJS from  'crypto-js';
+import *  as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +58,9 @@ export class LocalService {
    * @returns
    */
   private decrypt(txtToDecrypt: string): string {
-    return CryptoJS.AES.decrypt(txtToDecrypt, environment.key).toString(CryptoJS.enc.Utf8);
+    if (txtToDecrypt) {
+      return CryptoJS.AES.decrypt(txtToDecrypt, environment.key).toString(CryptoJS.enc.Utf8);
+    } else
+      return '';
   }
 }

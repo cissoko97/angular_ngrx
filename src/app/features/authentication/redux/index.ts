@@ -35,10 +35,8 @@ export const authReducer = createReducer(authInitialState,
     return state;
   }),
   on(AuthAction.logOut, (state: AuthState) => {
-   //TODO Implement redux  with logOut.
-
     localStorage.removeItem(keyWord.USERLOGIN);
-    return { ...state, loggedIn: false, user: undefined }
+    return { ...state, loggedIn: false, accessToken: undefined, refreshToken: undefined }
   }));
 
 export * from './authentication.action';

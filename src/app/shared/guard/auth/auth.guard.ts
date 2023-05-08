@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { containRoles } from 'app/core/utils/hasRole';
 import { AuthState } from 'app/features/authentication/redux';
-import { getAccesToken, getIsLoggedIn } from 'app/features/authentication/redux/authentication.selectors';
-import { Observable, tap, map } from 'rxjs';
+import { getAccesToken } from 'app/features/authentication/redux/authentication.selectors';
+import { Observable, map } from 'rxjs';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,13 +20,11 @@ export class AuthGuard implements CanActivate {
     return this.store.select(getAccesToken)
       .pipe(
         map((token: string) => {
-          const dehash = atob(token?.split('.')[1]) as string;
-
-          const claim: { roles: Array<string> } = JSON.parse(dehash);
-
-          return claim.roles.some(role => routeRoles.includes(role));
+          return containRoles(token, routeRoles);
         })
       );
   }
 
 }
+
+

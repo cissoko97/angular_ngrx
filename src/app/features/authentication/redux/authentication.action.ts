@@ -12,5 +12,6 @@ export const AuthAction = createActionGroup({
     'login Success': props<{ accessToken: string, refreshToken: string }>(),
     'login Failed': emptyProps(),
     'log Out': emptyProps(),
+    'log Out Success': emptyProps(),
   }
 })
