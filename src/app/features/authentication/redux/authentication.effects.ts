@@ -32,7 +32,7 @@ export class AuthenticationEffects {
         }
         ))
     )
-  ));
+  ) );
 
   userRegister$ = createEffect(() => this.actions$.pipe(
     ofType(AuthAction.register),
