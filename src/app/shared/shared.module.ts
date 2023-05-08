@@ -8,7 +8,6 @@ import { HasRoleDirective } from './directives/has-role/has-role.directive';
 
 @NgModule({
   declarations: [
-  
     HasRoleDirective
   ],
   imports: [

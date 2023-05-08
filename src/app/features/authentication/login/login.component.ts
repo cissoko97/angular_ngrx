@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   selectIsLoggedIn$: Observable<boolean> = this.authStore.select(getIsLoggedIn);
   selectLoggedUser$: Observable<Partial<IUser>> = this.authStore.select(getLoggedUser) as Observable<Partial<IUser>>;
 
-  selectAccesToken$: Observable<string> = this.authStore.select(getAccesToken)  as Observable<string>;
+  selectAccesToken$: Observable<string> = this.authStore.select(getAccesToken) as Observable<string>;
   selectRefreshToken$: Observable<string> = this.authStore.select(getRefreshToken) as Observable<string>;
 
   onLogOut(): void {
@@ -45,8 +45,8 @@ export class LoginComponent implements OnInit {
 
     console.log(formValue);
     const payload: AuthRequest = {
-      username: "boris-ck1",
-      password: "password",
+      username: formValue?.login,
+      password: formValue?.password,
       withRefreshToken: false,
       grantType: 'password',
     }
@@ -54,8 +54,8 @@ export class LoginComponent implements OnInit {
     this.authStore.dispatch(AuthAction.login(payload));
   }
 
-  cancel(): void {
-    this.authStore.dispatch(AuthAction.logOut())
+  cancel(form: NgForm): void {
+    form.reset()
   }
 
   mouseEvent(event: Event, status: boolean): void {

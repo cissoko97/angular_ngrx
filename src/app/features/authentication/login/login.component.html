@@ -5,7 +5,7 @@
   <div class="col-md-6">
     <form #loginForm="ngForm" autocomplete="off" novalidate (ngSubmit)="submitForm(loginForm.value)">
       <div class="form-floating mb-3">
-        <input id="login"
+        <input id="login" autocomplete="false"
           [ngClass]="{'form-control':true ,'is-invalid':loginForm.controls['login']?.invalid && (loginForm.controls['login']?.touched || mouseOverLogin) }"
           (ngModel)="login" required name="login" type="text" placeholder="User Name..." />
         <label class="form-label" for="login">User name</label>
@@ -18,14 +18,15 @@
       </div>
 
       <div class="form-floating mb-3">
-        <input id="password"
+        <input id="password" autocomplete="false"
           [ngClass]="{'form-control':true ,'is-invalid':loginForm.controls['password']?.invalid && (loginForm.controls['password']?.touched || mouseOverLogin)}"
           (ngModel)="password" required name="password" type="password" placeholder="Password..." />
         <label class="form-label" for="password">Password</label>
-        <em
-          *ngIf="loginForm.controls['password']?.invalid && (loginForm.controls['password']?.touched || mouseOverLogin)"
-          class="invalid-feedback">
-          Please enter password.
+        <em [ngClass]="{'invalid-feedback':(loginForm.invalid && loginForm.touched)}">
+          <span *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched"
+            class="invalid-feedback">
+            Please enter password.
+          </span>
         </em>
       </div>
 
@@ -34,7 +35,7 @@
         <span (mouseenter)="mouseEvent($event , true)">
           <button type="submit" [disabled]="loginForm.invalid" class="btn btn-success">Login</button>
         </span>
-        <button type="reset" (click)="cancel()" class="btn btn-danger">Cancel</button>
+        <button type="reset" (click)="cancel(loginForm)" class="btn btn-danger">Cancel</button>
       </div>
     </form>
   </div>
@@ -43,11 +44,9 @@
 
 <!-- <div class="col-md-5">
   <pre>
-    loginForm.controls.login.valid : {{loginForm.controls['login']?.valid }}
-    loginForm.controls.login.invalid : {{loginForm.controls['login']?.invalid }}
-    loginForm.controls.login.dirty : {{loginForm.controls['login']?.dirty }}
-    loginForm.controls.login.pristine : {{loginForm.controls['login']?.pristine }}
-    loginForm.controls.login.touched : {{loginForm.controls['login']?.touched }}
-    loginForm.controls.login.untouched : {{loginForm.controls['login']?.untouched }}
+    loginForm.controls.password.invalid : {{loginForm.controls['password']?.invalid }}
+    loginForm.controls.password.touched : {{loginForm.controls['password']?.touched }}
+    loginForm.invalide : {{loginForm.invalid }}
+    loginForm.touched : {{loginForm.touched }}
   </pre>
 </div> -->

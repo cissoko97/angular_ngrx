@@ -26,10 +26,13 @@ export class AuthenticationEffects {
           this.localService.saveData(keyWord.USERLOGIN, JSON.stringify({ ...data }));
           return AuthAction.loginSuccess({ accessToken: data.accessToken, refreshToken: data.refreshToken })
         }),
-        catchError(error => of(AuthAction.loginFailed()))
-      )
+        catchError(error => {
+          console.log(error);
+          return of(AuthAction.loginFailed())
+        }
+        ))
     )
-  ));
+  ) );
 
   userRegister$ = createEffect(() => this.actions$.pipe(
     ofType(AuthAction.register),
@@ -39,6 +42,16 @@ export class AuthenticationEffects {
         map(data => AuthAction.loginSuccess({ accessToken: '', refreshToken: '' })),
         catchError(error => of(AuthAction.loginFailed()))
       )
+    )
+  ));
+
+  userLogOut$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthAction.logOut),
+    exhaustMap(action => {
+      this.localService.removeData(keyWord.USERLOGIN);
+      this.router.navigate(['login'])
+      return of(AuthAction.logOutSuccess())
+    }
     )
   ));
 
