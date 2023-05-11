@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthState } from 'app/features/authentication/redux';
 import { getIsLoggedIn } from 'app/features/authentication/redux/authentication.selectors';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()
-export class NoAuthGuard implements CanActivate {
+export class NoAuthGuard  {
 
   store = inject(Store) as Store<AuthState>;
   router = inject(Router);
