@@ -3,22 +3,23 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@a
 import { Store } from '@ngrx/store';
 import { AuthState } from 'app/features/authentication/redux';
 import { getIsLoggedIn } from 'app/features/authentication/redux/authentication.selectors';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 @Injectable()
-export class NoAuthGuard  {
+export class NoAuthGuard {
 
   store = inject(Store) as Store<AuthState>;
-  router = inject(Router);
+  // router = inject(Router);
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-    return this.store.select(getIsLoggedIn)
+    return of(false);
+    this.store.select(getIsLoggedIn)
       .pipe(
         tap((loggedIn) => {
           if (loggedIn) {
-            this.router.navigate(['user'])
+            // this.router.navigate(['user'])
           }
         })
       );

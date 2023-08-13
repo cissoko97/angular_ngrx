@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -7,6 +7,7 @@ import { IUser } from './core/models/user.model';
 import { AuthAction, AuthState } from './features/authentication/redux';
 import { getIsLoggedIn, getLoggedUser } from './features/authentication/redux/authentication.selectors';
 import { ERole } from './core/enum';
+import { setTheme } from 'ngx-bootstrap/utils';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,6 +15,7 @@ import { ERole } from './core/enum';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+  todos = signal([{ title: 'Learn signals', done: false }]);
   public eRole = ERole;
   private authStore: Store<AuthState> = inject(Store);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @Input() title = 'tutoriel ngrx';
   count = 0;
-
+  test = signal(0);
 
   selectIsLoggedIn$: Observable<boolean> = this.authStore.select(getIsLoggedIn);
   selectLoggedUser$: Observable<Partial<IUser>> = this.authStore.select(getLoggedUser) as Observable<Partial<IUser>>;
@@ -31,6 +33,12 @@ export class AppComponent implements OnInit, OnDestroy {
   users: Array<IUser> = [];
 
   ngOnInit(): void {
+    setTheme('bs5');
+    this.todos.mutate(value => {
+      value[0].done = true;
+    })
+
+    this.test.mutate(val => val = val + 3);
     // this.store.dispatch(userAction.getUserApi())
   }
 
@@ -88,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  logout(){
+  logout() {
     this.authStore.dispatch(AuthAction.logOut())
 
   }

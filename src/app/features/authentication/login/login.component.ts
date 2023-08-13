@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { NgForm, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +16,6 @@ import { getAccesToken, getIsLoggedIn, getLoggedUser, getRefreshToken } from '..
 export class LoginComponent implements OnInit {
 
   formBuilder = inject(NonNullableFormBuilder);
-  httpClient = inject(HttpClient);
   authStore = inject(Store) as Store<AuthState>;
   router = inject(Router);
 
@@ -39,6 +37,54 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
+    const observer = {
+      next: (data: any) => {
+        console.log(data);
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+      complete: () => { }
+    }
+
+    const request = indexedDB.open("MyTest", 3);
+
+    const customerData = [
+      { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+      { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" },
+    ];
+
+    request.onupgradeneeded = (event) => {
+      // Save the IDBDatabase interface
+      const db = (event?.target as any).result;
+
+      // Create an objectStore for this database
+      const objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+
+      // Create an index to search customers by name. We may have duplicates
+      // so we can't use a unique index.
+      objectStore.createIndex("name", "name", { unique: false });
+
+      // Create an index to search customers by email. We want to ensure that
+      // no two customers have the same email, so use a unique index.
+      objectStore.createIndex("email", "email", { unique: true });
+
+      // Use transaction oncomplete to make sure the objectStore creation is
+      // finished before adding data into it.
+      objectStore.transaction.oncomplete = (e: Event) => {
+        // Store values in the newly created objectStore.
+        const customerObjectStore = db
+          .transaction("customers", "readwrite")
+          .objectStore("customers");
+        customerData.forEach((customer) => {
+          customerObjectStore.add(customer);
+        });
+      };
+    };
+
+    console.log(request);
+
+
   }
 
   submitForm(formValue: any): void {

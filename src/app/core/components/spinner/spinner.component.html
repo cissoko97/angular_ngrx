@@ -1,0 +1,12 @@
+<ngx-spinner
+  *ngIf="spinnerActive"
+  type="ball-clip-rotate"
+  size="medium"
+  color="rgba(100,149,237, .8)"
+  [fullScreen]="false">
+  <div style="align-items: center">
+    <ng-container *ngFor="let spinnerMessage of spinnerMessages">
+      <p style="text-align: center; color: white">{{ spinnerMessage  }}</p>
+    </ng-container>
+  </div>
+</ngx-spinner>

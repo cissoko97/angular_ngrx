@@ -1,6 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListBookComponent } from './list-book.component';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+class StoreMock {
+  // How we did it before
+  select = jasmine.createSpy().and.returnValue(of([]));
+  dispatch = jasmine.createSpy();
+}
 
 describe('ListBookComponent', () => {
   let component: ListBookComponent;
@@ -8,9 +15,15 @@ describe('ListBookComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListBookComponent ]
+      declarations: [ListBookComponent],
+      providers: [
+        {
+          provide: Store,
+          useClass: StoreMock,
+        }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

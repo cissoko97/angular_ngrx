@@ -10,7 +10,6 @@ export class HasRoleDirective {
   set appHasRole(roles: Array<string>) {
 
     if (roles?.length !== 0) {
-
       this.authService.hasRole(roles).pipe(tap((hasRole: boolean) => {
         if (hasRole) {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
@@ -25,6 +24,5 @@ export class HasRoleDirective {
   }
 
   constructor(private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef, private authService: AuthenticationService) { }
-
 
 }

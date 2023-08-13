@@ -2,6 +2,7 @@
   <header class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand">{{'Tutorial NgRx' |uppercase}}</a>
+      <a class="navbar-brand">{{test()}}</a>
 
       <ng-container *ngIf="(selectIsLoggedIn$ |async)">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -10,8 +11,8 @@
               [routerLinkActiveOptions]="{exact:false}">User</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" *appHasRole="['USER','MODERATOR','ADMIN']" [routerLink]="['/book']" [routerLinkActive]="['active']"
-              [routerLinkActiveOptions]="{exact:false}">Book</a>
+            <a class="nav-link" *appHasRole="['USER','MODERATOR','ADMIN']" [routerLink]="['/book']"
+              [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:false}">Book</a>
           </li>
         </ul>
       </ng-container>
@@ -20,7 +21,8 @@
         <li class="nav-item">
           <ng-content *ngIf="!(selectIsLoggedIn$ |async);then loggedIn else notLoggedIn"></ng-content>
           <ng-template #loggedIn>
-            <button type="button" class="btn btn-light" [routerLink]="['/auth']" [routerLinkActive]="['active']">Login</button>
+            <button type="button" class="btn btn-light" [routerLink]="['/auth']"
+              [routerLinkActive]="['active']">Login</button>
           </ng-template>
           <ng-template #notLoggedIn>
             <button type="button" class="btn btn-light" (click)="logout()">Logout</button>
