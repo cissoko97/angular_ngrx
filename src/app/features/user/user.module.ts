@@ -15,7 +15,7 @@ import { keyWord } from 'app/core/utils/storeKey';
 @NgModule({
   declarations: [
     ListUserComponent,
-    AddUserComponent
+    AddUserComponent,
   ],
   imports: [
     CommonModule,

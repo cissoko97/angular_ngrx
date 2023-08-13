@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-user',
@@ -8,13 +7,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AddUserComponent implements OnInit {
   title: string = 'bonjour';
-  constructor(public dialogRef: MatDialogRef<AddUserComponent>) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
 
   close(): void {
-    this.dialogRef.close({})
   }
 }

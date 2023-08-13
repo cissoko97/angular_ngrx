@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -14,10 +13,14 @@ import { NotFoundComponent } from './core/components/not-found/not-found.compone
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from './shared/shared.module';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './shared/guard/auth/auth.guard';
 import { AuthenticationModule } from './features/authentication/authentication.module';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SpinnerComponent } from './core/components/spinner/spinner.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerInterceptor } from './core/interceptor/spinnerInterceptor';
 
 
 const routes: Routes = [
@@ -41,7 +44,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -59,18 +63,22 @@ const routes: Routes = [
     EntityDataModule.forRoot(entityConfig),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     EffectsModule.forRoot([HydratationEffects]),
+    TooltipModule.forRoot(),
     RouterModule.forRoot(routes),
     SharedModule,
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    NgxSpinnerModule
   ],
   providers: [
     {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { hasBackdrop: true, disableClose: true }
-    }
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }

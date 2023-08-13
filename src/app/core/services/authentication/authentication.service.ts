@@ -17,8 +17,8 @@ export class AuthenticationService {
 
   private httpClient: HttpClient = inject(HttpClient);
 
-  login(payload: AuthRequest): Observable<{ accessToken: string, refreshToken: string }> {
-    return this.httpClient.post<{ accessToken: string, refreshToken: string }>(`${environment.url}auth/token`, payload);
+ public login(payload: AuthRequest): Observable<{ accessToken: string, refreshToken: string }> {
+    return this.httpClient.post<{ accessToken: string, refreshToken: string }>(`/api/auth/token`, payload);
   }
 
   public hasRole(userRoles: Array<string>): Observable<boolean> {

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { containRoles } from 'app/core/utils/hasRole';
 import { AuthState } from 'app/features/authentication/redux';
@@ -7,7 +7,7 @@ import { getAccesToken } from 'app/features/authentication/redux/authentication.
 import { Observable, map } from 'rxjs';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
 
   store = inject(Store) as Store<AuthState>;
 

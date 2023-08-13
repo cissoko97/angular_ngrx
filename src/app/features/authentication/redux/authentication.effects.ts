@@ -7,6 +7,7 @@ import { AuthAction } from './authentication.action';
 import { AuthenticationService } from "app/core/services/authentication/authentication.service";
 import { keyWord } from "app/core/utils/storeKey";
 import { LocalService } from "app/shared/services/local/local.service";
+import { AuthRequest } from "app/core/models";
 
 @Injectable()
 export class AuthenticationEffects {
@@ -19,20 +20,30 @@ export class AuthenticationEffects {
 
   userLogin$ = createEffect(() => this.actions$.pipe(
     ofType(AuthAction.login),
-    exhaustMap(action => this.authenticationService
-      .login(action)
-      .pipe(
-        map(data => {
-          this.localService.saveData(keyWord.USERLOGIN, JSON.stringify({ ...data }));
-          return AuthAction.loginSuccess({ accessToken: data.accessToken, refreshToken: data.refreshToken })
-        }),
-        catchError(error => {
-          console.log(error);
-          return of(AuthAction.loginFailed())
-        }
-        ))
+    exhaustMap((action: AuthRequest) => {
+      const { grantType, password, username, withRefreshToken } = action
+
+      const payload = {
+        username,
+        password,
+        withRefreshToken,
+        grantType
+      }
+      return this.authenticationService
+        .login(payload)
+        .pipe(
+          map(data => {
+            this.localService.saveData(keyWord.USERLOGIN, JSON.stringify({ ...data }));
+            return AuthAction.loginSuccess({ accessToken: data.accessToken, refreshToken: data.refreshToken })
+          }),
+          catchError(error => {
+            console.log(error);
+            return of(AuthAction.loginFailed())
+          }
+          ))
+    }
     )
-  ) );
+  ));
 
   userRegister$ = createEffect(() => this.actions$.pipe(
     ofType(AuthAction.register),

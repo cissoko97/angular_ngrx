@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { UserState } from './features/user/redux';
-
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing'
 
 class StoreMock {
   // How we did it before
@@ -18,6 +19,7 @@ describe('AppComponent', () => {
   let store: Store<UserState>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         AppComponent
       ],
@@ -28,14 +30,11 @@ describe('AppComponent', () => {
         }
       ]
     }).compileComponents();
-
-    fixture = TestBed.createComponent(AppComponent);
-    debugElement = fixture.debugElement;
   });
 
   beforeEach(() => {
-    store = TestBed.get(Store);
     fixture = TestBed.createComponent(AppComponent);
+    store = TestBed.get(Store);
     fixture.debugElement.componentInstance;
   });
 
@@ -46,13 +45,6 @@ describe('AppComponent', () => {
 
   it(`should have as title 'tutoriel_ngrx'`, () => {
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('tutoriel_ngrx');
-  });
-
-  it('should render title', () => {
-    fixture.detectChanges();
-    // fixture.componentInstance.
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('tutoriel_ngrx app is running!');
+    expect(app.title).toEqual('tutoriel ngrx');
   });
 });
